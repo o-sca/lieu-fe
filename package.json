@@ -15,7 +15,7 @@
     "pre-push": "npx prettier --check ."
   },
   "lint-staged": {
-    "*.{js, ts}": "eslint --cache"
+    "*.{js,ts}": "eslint --cache"
   },
   "private": true,
   "dependencies": {
