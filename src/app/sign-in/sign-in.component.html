@@ -1,0 +1,31 @@
+<div class="signin-container">
+  <h1>Sign In</h1>
+  <mat-form-field appearance="fill">
+    <mat-label>Email</mat-label>
+    <input
+      matInput
+      placeholder="felix@lieu.com"
+      [formControl]="email"
+      required
+    />
+    @if (email.invalid) {
+    <mat-error>{{ getErrorMessage() }}</mat-error>
+    }
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Password</mat-label>
+    <input matInput type="password" [formControl]="password" required />
+    @if (password.invalid) {
+    <mat-error>{{ getErrorMessage() }}</mat-error>
+    }
+  </mat-form-field>
+  <input
+    type="submit"
+    mat-raised-button
+    color="primary"
+    [disabled]="!password.valid || !email.valid"
+    (click)="signIn()"
+    value="Sign In"
+  />
+</div>
+<router-outlet></router-outlet>
