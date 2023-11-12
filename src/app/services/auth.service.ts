@@ -13,7 +13,7 @@ export class AuthService {
           email: email,
           password: password,
         },
-        { headers: { 'content-type': 'application/json' } }
+        { headers: { 'content-type': 'application/json' } },
       )
       .subscribe((response) => {
         return response;
