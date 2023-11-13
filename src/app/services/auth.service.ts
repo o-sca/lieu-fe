@@ -6,17 +6,13 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   signIn(email: string, password: string) {
-    this.http
-      .post(
-        'http://localhost:3000/signin',
-        {
-          email: email,
-          password: password,
-        },
-        { headers: { 'content-type': 'application/json' } },
-      )
-      .subscribe((response) => {
-        return response;
-      });
+    return this.http.post(
+      'http://localhost:3000/signin',
+      {
+        email: email,
+        password: password,
+      },
+      { headers: { 'content-type': 'application/json' } },
+    );
   }
 }
