@@ -1,2 +1,23 @@
 <h1>Landing Page</h1>
+<div class="landing-container">
+  <mat-tab-group animationDuration="0ms">
+    <mat-tab label="Paragraph">
+      <div class="paragraph-container">
+        <mat-form-field>
+          <textarea
+            class="paragraph-input"
+            matInput
+            placeholder="What do you need summarise?"
+          ></textarea>
+        </mat-form-field>
+      </div>
+    </mat-tab>
+    <mat-tab label="File">
+      <div class="file-container">
+        <button mat-raised-button color="primary">Upload File</button>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+  <button mat-raised-button color="accent" routerLink="/">Summarise</button>
+</div>
 <router-outlet></router-outlet>
