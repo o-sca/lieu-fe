@@ -35,7 +35,7 @@ export class SignInComponent {
 
   getErrorMessage(): string {
     if (this.email.hasError('required')) {
-      return 'You must enter a value';
+      return 'You must enter an email';
     }
 
     if (this.password.hasError('required')) {
