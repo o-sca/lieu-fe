@@ -1,1 +1,25 @@
-<p>sign-up works!</p>
+<div class="signup-container">
+  <h1>Sign Up</h1>
+  <mat-form-field appearance="fill">
+    <mat-label>Email</mat-label>
+    <input
+      matInput
+      placeholder="felix@lieu.com"
+      [formControl]="email"
+      required
+    />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Password</mat-label>
+    <input matInput type="password" [formControl]="password" required />
+  </mat-form-field>
+  <input
+    type="submit"
+    mat-raised-button
+    color="primary"
+    [disabled]="!password.valid || !email.valid"
+    (click)="signUp()"
+    value="Sign Up"
+  />
+</div>
+<router-outlet></router-outlet>
