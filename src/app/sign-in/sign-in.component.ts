@@ -31,7 +31,7 @@ export class SignInComponent {
   email = new FormControl(null, [Validators.required, Validators.email]);
   password = new FormControl(null, [Validators.required]);
 
-  constructor(private authService: AuthService) {}
+  constructor(private auth: AuthService) {}
 
   getErrorMessage(): string {
     if (this.email.hasError('required')) {
@@ -46,6 +46,10 @@ export class SignInComponent {
   }
 
   signIn() {
-    this.authService.signIn(this.email.value!, this.password.value!);
+    this.auth
+      .signIn(this.email.value!, this.password.value!)
+      .subscribe((observer) => {
+        console.log(observer);
+      });
   }
 }

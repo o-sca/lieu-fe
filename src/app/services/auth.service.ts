@@ -1,18 +1,28 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { UtilityService } from './utility.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  constructor(private http: HttpClient) {}
+  private authenticated = false;
+  private redirectUrl = '';
+  private baseUrl = this.utility.getApiUrl();
+
+  constructor(
+    private http: HttpClient,
+    private utility: UtilityService,
+  ) {}
 
   signIn(email: string, password: string) {
     return this.http.post(
-      'http://localhost:3000/signin',
+      this.baseUrl + '/login',
       {
         email: email,
         password: password,
       },
-      { headers: { 'content-type': 'application/json' } },
+      {
+        headers: { 'Content-Type': 'application/json' },
+      },
     );
   }
 }
