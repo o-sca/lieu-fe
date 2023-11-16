@@ -50,22 +50,35 @@ export class AuthService {
   }
 
   signUp(email: string, password: string, name: string) {
-    return this.http.post(
-      this._baseUrl + '/signup',
-      {
-        email,
-        password,
-        name,
-      },
-      {
-        headers: { 'Content-Type': 'application/json' },
-      },
-    );
+    return this.http
+      .post(
+        this._baseUrl + '/signup',
+        {
+          email,
+          password,
+          name,
+        },
+        {
+          headers: { 'Content-Type': 'application/json' },
+          observe: 'response',
+        },
+      )
+      .pipe(
+        map((response) => {
+          this._authenticated = true;
+          this._redirectUrl = '/';
+          this.setAuthChange(true);
+          return response;
+        }),
+        catchError((err) => {
+          return throwError(err);
+        }),
+      );
   }
 
   signOut() {
-    this.http
-      .post(this._baseUrl + '/logout', null, { observe: 'response' })
+    return this.http
+      .get(this._baseUrl + '/logout', { observe: 'response' })
       .pipe(
         map((response) => {
           this._authenticated = false;
