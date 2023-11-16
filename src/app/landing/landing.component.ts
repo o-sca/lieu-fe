@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -14,6 +15,7 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
     CommonModule,
     MatCardModule,
     MatTabsModule,
+    MatBottomSheetModule,
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
@@ -28,5 +30,9 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 export class LandingComponent {
   onSubmit() {
     return 'uploading';
+  }
+
+  openUploadSheet() {
+    return;
   }
 }
