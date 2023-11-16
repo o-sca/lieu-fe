@@ -19,13 +19,19 @@
     <mat-error>{{ getErrorMessage() }}</mat-error>
     }
   </mat-form-field>
-  <input
-    type="submit"
-    mat-raised-button
-    color="primary"
-    [disabled]="!password.valid || !email.valid"
-    (click)="signIn()"
-    value="Sign In"
-  />
+  <div>
+    <input
+      type="submit"
+      mat-raised-button
+      color="primary"
+      [disabled]="!password.valid || !email.valid"
+      (click)="signIn()"
+      value="Sign In"
+    />
+  </div>
+  <div class="error-message-container" *ngIf="authError">
+    {{ errorMessage }}
+  </div>
+  <a routerLink="/signup">Create an account</a>
 </div>
 <router-outlet></router-outlet>

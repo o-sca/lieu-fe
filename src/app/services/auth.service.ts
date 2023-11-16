@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UtilityService } from './utility.service';
-import { map } from 'rxjs';
+import { catchError, map, throwError } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -24,17 +24,17 @@ export class AuthService {
         },
         {
           headers: { 'Content-Type': 'application/json' },
-          observe: 'response' as const,
+          observe: 'response',
         },
       )
       .pipe(
         map((response) => {
-          if (response.ok) {
-            this._authenticated = true;
-            this._redirectUrl = '/profile';
-            return response;
-          }
+          this._authenticated = true;
+          this._redirectUrl = '/profile';
           return response;
+        }),
+        catchError((err) => {
+          return throwError(err);
         }),
       );
   }

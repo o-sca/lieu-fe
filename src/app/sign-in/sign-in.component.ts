@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import {
   FormControl,
@@ -22,6 +22,7 @@ import { AuthService } from '../services/auth.service';
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    NgIf,
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
@@ -33,6 +34,8 @@ import { AuthService } from '../services/auth.service';
   styleUrl: './sign-in.component.css',
 })
 export class SignInComponent {
+  authError = false;
+  errorMessage = '';
   email = new FormControl(null, [Validators.required, Validators.email]);
   password = new FormControl(null, [Validators.required]);
 
@@ -54,12 +57,18 @@ export class SignInComponent {
   }
 
   signIn() {
-    this.auth
-      .signIn(this.email.value!, this.password.value!)
-      .subscribe((response) => {
+    this.auth.signIn(this.email.value!, this.password.value!).subscribe(
+      (response) => {
         if (response.ok) {
-          this.router.navigate([this.auth.redirectUrl]);
+          return this.router.navigate([this.auth.redirectUrl]);
+        } else {
+          return response;
         }
-      });
+      },
+      (error) => {
+        this.authError = true;
+        this.errorMessage = error.error.message;
+      },
+    );
   }
 }
