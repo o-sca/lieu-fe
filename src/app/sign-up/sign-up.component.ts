@@ -50,17 +50,15 @@ export class SignUpComponent {
   signUp() {
     this.auth
       .signUp(this.email.value!, this.password.value!, this.name.value!)
-      .subscribe(
-        (response) => {
-          if (response.ok) {
-            this.router.navigate([this.auth.redirectUrl]);
-          }
+      .subscribe({
+        next: () => {
+          this.router.navigate([this.auth.redirectUrl]);
         },
-        (err) => {
+        error: (err) => {
           this.registrationError = true;
           this.errorMessage = err.error.message;
         },
-      );
+      });
   }
 
   getErrorMessage(control: FormControl) {

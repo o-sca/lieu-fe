@@ -59,18 +59,14 @@ export class SignInComponent {
   }
 
   signIn() {
-    this.auth.signIn(this.email.value!, this.password.value!).subscribe(
-      (response) => {
-        if (response.ok) {
-          return this.router.navigate([this.auth.redirectUrl]);
-        } else {
-          return response;
-        }
+    this.auth.signIn(this.email.value!, this.password.value!).subscribe({
+      next: () => {
+        this.router.navigate(['/']);
       },
-      (error) => {
+      error: (err) => {
         this.authError = true;
-        this.errorMessage = error.error.message;
+        this.errorMessage = err.message;
       },
-    );
+    });
   }
 }

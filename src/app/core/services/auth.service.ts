@@ -44,7 +44,7 @@ export class AuthService {
           return response;
         }),
         catchError((err) => {
-          return throwError(err);
+          return throwError(() => err);
         }),
       );
   }
@@ -71,7 +71,7 @@ export class AuthService {
           return response;
         }),
         catchError((err) => {
-          return throwError(err);
+          return throwError(() => err);
         }),
       );
   }
@@ -87,7 +87,7 @@ export class AuthService {
           return response;
         }),
         catchError((err) => {
-          return throwError(err);
+          return throwError(() => err);
         }),
       );
   }
