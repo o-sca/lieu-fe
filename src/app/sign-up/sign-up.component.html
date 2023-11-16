@@ -17,13 +17,13 @@
     <mat-label>Password</mat-label>
     <input matInput type="password" [formControl]="password" required />
   </mat-form-field>
-  <input
-    type="submit"
+  <button
     mat-raised-button
     color="primary"
     [disabled]="!password.valid || !email.valid"
     (click)="signUp()"
-    value="Sign Up"
-  />
+  >
+    Sign Up
+  </button>
 </div>
 <router-outlet></router-outlet>

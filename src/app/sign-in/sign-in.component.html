@@ -20,14 +20,14 @@
     }
   </mat-form-field>
   <div>
-    <input
-      type="submit"
+    <button
       mat-raised-button
       color="primary"
       [disabled]="!password.valid || !email.valid"
       (click)="signIn()"
-      value="Sign In"
-    />
+    >
+      Sign In
+    </button>
   </div>
   <div class="error-message-container" *ngIf="authError">
     {{ errorMessage }}

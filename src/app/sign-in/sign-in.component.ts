@@ -6,6 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {
@@ -24,6 +25,7 @@ import { AuthService } from '../core/services/auth.service';
     ReactiveFormsModule,
     NgIf,
     MatFormFieldModule,
+    MatButtonModule,
     MatInputModule,
     FormsModule,
     RouterOutlet,
