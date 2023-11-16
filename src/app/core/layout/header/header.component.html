@@ -4,17 +4,21 @@
       <span>Lieu</span>
     </mat-toolbar-row>
     <mat-toolbar-row>
-      <span class="spacer" *ngIf="authenticated$">
-        <button mat-raised-button color="accent" routerLink="/logout">
-          Logout
+      <button mat-raised-button color="accent" routerLink="/">Home</button>
+      <span *ngIf="!authenticated">
+        <button mat-raised-button color="accent" routerLink="/signin">
+          Sign In
+        </button>
+        <button mat-raised-button color="accent" routerLink="/signup">
+          Sign Up
         </button>
       </span>
-      <button mat-raised-button color="accent" routerLink="/signin">
-        Sign In
-      </button>
-      <button mat-raised-button color="accent" routerLink="/signup">
-        Sign Up
-      </button>
+      <span class="spacer"></span>
+      <span *ngIf="authenticated">
+        <button mat-raised-button color="warn" (click)="signOut()">
+          Sign Out
+        </button>
+      </span>
     </mat-toolbar-row>
   </mat-toolbar>
 </nav>
