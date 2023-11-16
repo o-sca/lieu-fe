@@ -28,10 +28,13 @@ import { AuthService } from '../services/auth.service';
   styleUrl: './sign-up.component.css',
 })
 export class SignUpComponent {
+  name = new FormControl(null, [Validators.required]);
   email = new FormControl(null, [Validators.required, Validators.email]);
   password = new FormControl(null, [Validators.required]);
 
-  constructor(private authService: AuthService) {}
+  constructor(private auth: AuthService) {}
 
-  signUp() {}
+  signUp() {
+    this.auth.signUp(this.email.value!, this.password.value!, this.name.value!);
+  }
 }

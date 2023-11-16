@@ -1,6 +1,10 @@
 <div class="signup-container">
   <h1>Sign Up</h1>
   <mat-form-field appearance="fill">
+    <mat-label>Name</mat-label>
+    <input matInput placeholder="felix" [formControl]="name" required />
+  </mat-form-field>
+  <mat-form-field appearance="fill">
     <mat-label>Email</mat-label>
     <input
       matInput
