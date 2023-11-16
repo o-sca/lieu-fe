@@ -3,6 +3,9 @@
   <mat-form-field appearance="fill">
     <mat-label>Name</mat-label>
     <input matInput placeholder="felix" [formControl]="name" required />
+    @if (name.invalid) {
+    <mat-error>{{ getErrorMessage(name) }}</mat-error>
+    }
   </mat-form-field>
   <mat-form-field appearance="fill">
     <mat-label>Email</mat-label>
@@ -12,18 +15,27 @@
       [formControl]="email"
       required
     />
+    @if (email.invalid) {
+    <mat-error>{{ getErrorMessage(name) }}</mat-error>
+    }
   </mat-form-field>
   <mat-form-field>
     <mat-label>Password</mat-label>
     <input matInput type="password" [formControl]="password" required />
+    @if (password.invalid) {
+    <mat-error>{{ getErrorMessage(name) }}</mat-error>
+    }
   </mat-form-field>
   <button
     mat-raised-button
     color="primary"
-    [disabled]="!password.valid || !email.valid"
+    [disabled]="!password.valid || !email.valid || !name.valid"
     (click)="signUp()"
   >
     Sign Up
   </button>
+  <div class="error-message-container" *ngIf="registrationError">
+    {{ errorMessage }}
+  </div>
 </div>
 <router-outlet></router-outlet>

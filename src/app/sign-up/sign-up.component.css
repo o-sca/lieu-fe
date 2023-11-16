@@ -2,5 +2,10 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: 25%;
+  width: 50%;
+}
+
+.error-message-container {
+  margin-top: 10px;
+  color: red;
 }
