@@ -8,7 +8,12 @@ import {
 } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import {
+  Router,
+  RouterLink,
+  RouterLinkActive,
+  RouterOutlet,
+} from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -31,7 +36,10 @@ export class SignInComponent {
   email = new FormControl(null, [Validators.required, Validators.email]);
   password = new FormControl(null, [Validators.required]);
 
-  constructor(private auth: AuthService) {}
+  constructor(
+    private auth: AuthService,
+    private router: Router,
+  ) {}
 
   getErrorMessage(): string {
     if (this.email.hasError('required')) {
@@ -48,8 +56,10 @@ export class SignInComponent {
   signIn() {
     this.auth
       .signIn(this.email.value!, this.password.value!)
-      .subscribe((observer) => {
-        console.log(observer);
+      .subscribe((response) => {
+        if (response.ok) {
+          this.router.navigate([this.auth.redirectUrl]);
+        }
       });
   }
 }
