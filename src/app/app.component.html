@@ -1,14 +1,5 @@
-<main class="main">
-  <h1>{{ title }}</h1>
-  <div class="button-container">
-    <button mat-flat-button color="primary" routerLink="/">Home</button>
-    <button mat-flat-button color="primary" routerLink="/signin">
-      Sign In
-    </button>
-    <button mat-flat-button color="primary" routerLink="/signup">
-      Sign Up
-    </button>
-  </div>
+<main>
+  <app-layout-header></app-layout-header>
+  <router-outlet></router-outlet>
+  <app-layout-footer></app-layout-footer>
 </main>
-
-<router-outlet></router-outlet>
