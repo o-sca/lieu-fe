@@ -35,17 +35,24 @@ import { AuthService } from '../core/services/auth.service';
   styleUrl: './sign-up.component.css',
 })
 export class SignUpComponent {
-  registrationError = false;
-  errorMessage = '';
+  registrationError: boolean;
+  errorMessage: string;
 
-  name = new FormControl(null, [Validators.required]);
-  email = new FormControl(null, [Validators.required, Validators.email]);
-  password = new FormControl(null, [Validators.required]);
+  name: FormControl;
+  email: FormControl;
+  password: FormControl;
 
   constructor(
     private auth: AuthService,
     private router: Router,
-  ) {}
+  ) {
+    this.registrationError = false;
+    this.errorMessage = '';
+
+    this.name = new FormControl(null, [Validators.required]);
+    this.email = new FormControl(null, [Validators.required, Validators.email]);
+    this.password = new FormControl(null, [Validators.required]);
+  }
 
   signUp() {
     this.auth

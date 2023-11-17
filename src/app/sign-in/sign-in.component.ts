@@ -36,15 +36,20 @@ import { AuthService } from '../core/services/auth.service';
   styleUrl: './sign-in.component.css',
 })
 export class SignInComponent {
-  authError = false;
-  errorMessage = '';
-  email = new FormControl(null, [Validators.required, Validators.email]);
-  password = new FormControl(null, [Validators.required]);
+  authError: boolean;
+  errorMessage: string;
+  email: FormControl;
+  password: FormControl;
 
   constructor(
     private auth: AuthService,
     private router: Router,
-  ) {}
+  ) {
+    this.authError = false;
+    this.errorMessage = '';
+    this.email = new FormControl(null, [Validators.required, Validators.email]);
+    this.password = new FormControl(null, [Validators.required]);
+  }
 
   getErrorMessage(): string {
     if (this.email.hasError('required')) {
