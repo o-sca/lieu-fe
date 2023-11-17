@@ -31,10 +31,7 @@ export class AuthService {
           email: email,
           password: password,
         },
-        {
-          headers: { 'Content-Type': 'application/json' },
-          observe: 'response',
-        },
+        { observe: 'response' },
       )
       .pipe(
         map((response) => {
@@ -58,10 +55,7 @@ export class AuthService {
           password,
           name,
         },
-        {
-          headers: { 'Content-Type': 'application/json' },
-          observe: 'response',
-        },
+        { observe: 'response' },
       )
       .pipe(
         map((response) => {
@@ -84,6 +78,22 @@ export class AuthService {
           this._authenticated = false;
           this._redirectUrl = '/';
           this.setAuthChange(false);
+          return response;
+        }),
+        catchError((err) => {
+          return throwError(() => err);
+        }),
+      );
+  }
+
+  checkAuth() {
+    return this.http
+      .get(this._baseUrl + '/checklogin', {
+        observe: 'response',
+      })
+      .pipe(
+        map((response) => {
+          console.log(response);
           return response;
         }),
         catchError((err) => {
