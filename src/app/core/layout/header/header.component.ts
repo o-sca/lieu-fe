@@ -23,14 +23,17 @@ import { CookieService } from 'ngx-cookie-service';
   standalone: true,
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  private _subscription: Subscription = {} as Subscription;
-  authenticated = this.cookie.check('connect.sid');
+  private _subscription: Subscription;
+  public authenticated: boolean;
 
   constructor(
     private auth: AuthService,
     private cookie: CookieService,
     private router: Router,
-  ) {}
+  ) {
+    this._subscription = {} as Subscription;
+    this.authenticated = this.auth.authenticated;
+  }
 
   ngOnInit(): void {
     this._subscription = this.auth.authChanged.subscribe(

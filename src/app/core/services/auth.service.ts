@@ -1,19 +1,26 @@
 import { HttpClient } from '@angular/common/http';
-import { EventEmitter, Injectable, Output } from '@angular/core';
+import { EventEmitter, Injectable, Output, inject } from '@angular/core';
 import { UtilityService } from './utility.service';
 import { catchError, map, throwError } from 'rxjs';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private _authenticated = false;
-  private _redirectUrl = '';
-  private _baseUrl = this.utility.getApiUrl();
+  private _authenticated: boolean;
+  private _redirectUrl: string;
+  private _baseUrl: string;
+  private _cookie: CookieService;
   @Output() authChanged: EventEmitter<boolean> = new EventEmitter();
 
   constructor(
     private http: HttpClient,
     private utility: UtilityService,
-  ) {}
+  ) {
+    this._cookie = inject(CookieService);
+    this._baseUrl = this.utility.getApiUrl();
+    this._redirectUrl = '';
+    this._authenticated = this._cookie.check('connect.sid');
+  }
 
   get authenticated() {
     return this._authenticated;
