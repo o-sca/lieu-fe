@@ -7,7 +7,7 @@ export const authInterceptor = (
 ): Observable<HttpEvent<unknown>> => {
   req = req.clone({
     withCredentials: true,
-    headers: req.headers.set('Accept', 'application/json'),
+    headers: req.headers.set('Content-Type', 'application/json'),
   });
   return next(req);
 };
