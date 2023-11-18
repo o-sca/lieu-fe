@@ -1,3 +1,7 @@
+.signup-container {
+  margin-bottom: 30px;
+}
+
 .signup-container mat-form-field {
   display: flex;
   flex-direction: column;
