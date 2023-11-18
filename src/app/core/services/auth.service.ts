@@ -7,6 +7,7 @@ import { CookieService } from 'ngx-cookie-service';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private _authenticated: boolean;
+  private _role: string;
   private _redirectUrl: string;
   private _baseUrl: string;
   private _cookie: CookieService;
@@ -20,10 +21,15 @@ export class AuthService {
     this._baseUrl = this.utility.getApiUrl();
     this._redirectUrl = '';
     this._authenticated = this._cookie.check('connect.sid');
+    this._role = this._cookie.get('role');
   }
 
   get authenticated() {
     return this._authenticated;
+  }
+
+  get role() {
+    return this._role;
   }
 
   get redirectUrl() {
@@ -82,7 +88,9 @@ export class AuthService {
       .get(this._baseUrl + '/logout', { observe: 'response' })
       .pipe(
         map((response) => {
+          this._cookie.deleteAll();
           this._authenticated = false;
+          this._role = '';
           this._redirectUrl = '/';
           this.setAuthChange(false);
           return response;

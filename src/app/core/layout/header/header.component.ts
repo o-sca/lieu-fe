@@ -5,7 +5,6 @@ import { AsyncPipe, NgIf } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { Subscription } from 'rxjs';
-import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-layout-header',
@@ -19,20 +18,20 @@ import { CookieService } from 'ngx-cookie-service';
     MatButtonModule,
     MatToolbarModule,
   ],
-  providers: [CookieService],
   standalone: true,
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   private _subscription: Subscription;
   public authenticated: boolean;
+  public role: string;
 
   constructor(
     private auth: AuthService,
-    private cookie: CookieService,
     private router: Router,
   ) {
     this._subscription = {} as Subscription;
     this.authenticated = this.auth.authenticated;
+    this.role = this.auth.role;
   }
 
   ngOnInit(): void {
@@ -51,7 +50,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   signOut(): void {
     this.auth.signOut().subscribe((response) => {
       if (response.ok) {
-        this.cookie.deleteAll();
         this.router.navigate([this.auth.redirectUrl]);
       }
     });
