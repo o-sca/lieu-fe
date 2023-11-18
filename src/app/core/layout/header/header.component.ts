@@ -21,7 +21,8 @@ import { Subscription } from 'rxjs';
   standalone: true,
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  private _subscription: Subscription;
+  private _authSub: Subscription;
+  private _roleSub: Subscription;
   public authenticated: boolean;
   public role: string;
 
@@ -29,22 +30,30 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private auth: AuthService,
     private router: Router,
   ) {
-    this._subscription = {} as Subscription;
+    this._authSub = {} as Subscription;
+    this._roleSub = {} as Subscription;
     this.authenticated = this.auth.authenticated;
     this.role = this.auth.role;
   }
 
   ngOnInit(): void {
-    this._subscription = this.auth.authChanged.subscribe(
+    this._authSub = this.auth.authChanged.subscribe(
       (status) => {
         this.authenticated = status;
+      },
+      (err) => console.error(err),
+    );
+
+    this._roleSub = this.auth.roleChanged.subscribe(
+      (role) => {
+        this.role = role;
       },
       (err) => console.error(err),
     );
   }
 
   ngOnDestroy(): void {
-    this._subscription.unsubscribe();
+    this._authSub.unsubscribe();
   }
 
   signOut(): void {

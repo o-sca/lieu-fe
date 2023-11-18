@@ -12,6 +12,7 @@ export class AuthService {
   private _baseUrl: string;
   private _cookie: CookieService;
   @Output() authChanged: EventEmitter<boolean> = new EventEmitter();
+  @Output() roleChanged: EventEmitter<string> = new EventEmitter();
 
   constructor(
     private http: HttpClient,
@@ -50,6 +51,7 @@ export class AuthService {
         map((response) => {
           this._authenticated = true;
           this._redirectUrl = '/profile';
+          this.setRoleChange(this._cookie.get('role'));
           this.setAuthChange(true);
           return response;
         }),
@@ -74,6 +76,7 @@ export class AuthService {
         map((response) => {
           this._authenticated = true;
           this._redirectUrl = '/';
+          this.setRoleChange(this._cookie.get('role'));
           this.setAuthChange(true);
           return response;
         }),
@@ -92,6 +95,7 @@ export class AuthService {
           this._authenticated = false;
           this._role = '';
           this._redirectUrl = '/';
+          this.setRoleChange('');
           this.setAuthChange(false);
           return response;
         }),
@@ -119,5 +123,9 @@ export class AuthService {
 
   private setAuthChange(status: boolean) {
     this.authChanged.emit(status);
+  }
+
+  private setRoleChange(role: string) {
+    this.roleChanged.emit(role);
   }
 }
