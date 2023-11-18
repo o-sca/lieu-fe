@@ -36,12 +36,12 @@ export class AuthService {
     return this._redirectUrl;
   }
 
-  signIn(email: string, password: string) {
+  signIn(username: string, password: string) {
     return this.http
       .post(
         this._baseUrl + '/login',
         {
-          email: email,
+          username: username,
           password: password,
         },
         { observe: 'response' },
@@ -59,14 +59,14 @@ export class AuthService {
       );
   }
 
-  signUp(email: string, password: string, name: string) {
+  signUp(email: string, password: string, username: string) {
     return this.http
       .post(
         this._baseUrl + '/signup',
         {
           email,
           password,
-          name,
+          username: username,
         },
         { observe: 'response' },
       )

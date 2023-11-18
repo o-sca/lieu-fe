@@ -1,14 +1,9 @@
 <div class="signin-container">
   <h1>Sign In</h1>
   <mat-form-field appearance="fill">
-    <mat-label>Email</mat-label>
-    <input
-      matInput
-      placeholder="felix@lieu.com"
-      [formControl]="email"
-      required
-    />
-    @if (email.invalid) {
+    <mat-label>Username</mat-label>
+    <input matInput placeholder="felix" [formControl]="username" required />
+    @if (username.invalid) {
     <mat-error>{{ getErrorMessage() }}</mat-error>
     }
   </mat-form-field>
@@ -23,7 +18,7 @@
     <button
       mat-raised-button
       color="primary"
-      [disabled]="!password.valid || !email.valid"
+      [disabled]="!password.valid || !username.valid"
       (click)="signIn()"
     >
       Sign In

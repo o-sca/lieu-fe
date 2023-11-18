@@ -38,7 +38,7 @@ export class SignUpComponent {
   registrationError: boolean;
   errorMessage: string;
 
-  name: FormControl;
+  username: FormControl;
   email: FormControl;
   password: FormControl;
 
@@ -49,14 +49,14 @@ export class SignUpComponent {
     this.registrationError = false;
     this.errorMessage = '';
 
-    this.name = new FormControl(null, [Validators.required]);
+    this.username = new FormControl(null, [Validators.required]);
     this.email = new FormControl(null, [Validators.required, Validators.email]);
     this.password = new FormControl(null, [Validators.required]);
   }
 
   signUp() {
     this.auth
-      .signUp(this.email.value!, this.password.value!, this.name.value!)
+      .signUp(this.email.value!, this.password.value!, this.username.value!)
       .subscribe({
         next: () => {
           this.router.navigate([this.auth.redirectUrl]);

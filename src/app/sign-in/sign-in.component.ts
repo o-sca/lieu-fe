@@ -38,7 +38,7 @@ import { AuthService } from '../core/services/auth.service';
 export class SignInComponent {
   authError: boolean;
   errorMessage: string;
-  email: FormControl;
+  username: FormControl;
   password: FormControl;
 
   constructor(
@@ -47,24 +47,24 @@ export class SignInComponent {
   ) {
     this.authError = false;
     this.errorMessage = '';
-    this.email = new FormControl(null, [Validators.required, Validators.email]);
+    this.username = new FormControl(null, [Validators.required]);
     this.password = new FormControl(null, [Validators.required]);
   }
 
   getErrorMessage(): string {
-    if (this.email.hasError('required')) {
-      return 'You must enter an email';
+    if (this.username.hasError('required')) {
+      return 'You must enter a username';
     }
 
     if (this.password.hasError('required')) {
       return 'Password is required';
     }
 
-    return this.email.hasError('email') ? 'Not a valid email' : '';
+    return 'Invalid value';
   }
 
   signIn() {
-    this.auth.signIn(this.email.value!, this.password.value!).subscribe({
+    this.auth.signIn(this.username.value!, this.password.value!).subscribe({
       next: () => {
         this.router.navigate(['/']);
       },

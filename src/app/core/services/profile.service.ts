@@ -4,7 +4,7 @@ import { UtilityService } from './utility.service';
 import { catchError, map, throwError } from 'rxjs';
 
 interface ProfileResponse {
-  name: string;
+  username: string;
   email: string;
   user_type: string;
 }

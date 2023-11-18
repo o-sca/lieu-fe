@@ -11,12 +11,12 @@ import { MatCardModule } from '@angular/material/card';
   styleUrl: './profile.component.css',
 })
 export class ProfileComponent implements OnInit, OnDestroy {
-  name: string;
+  username: string;
   email: string;
   userType: string;
 
   constructor(private profile: ProfileService) {
-    this.name = '';
+    this.username = '';
     this.email = '';
     this.userType = '';
   }
@@ -24,7 +24,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.profile.getProfile().subscribe({
       next: (response) => {
-        this.name = response['name'];
+        this.username = response['username'];
         this.email = response['email'];
         this.userType = response['user_type'];
       },
