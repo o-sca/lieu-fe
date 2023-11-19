@@ -7,6 +7,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { SummaryService } from '../core/services/summary.service';
+import { AuthService } from '../core/services/auth.service';
 
 @Component({
   selector: 'app-landing',
@@ -28,8 +30,13 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
   styleUrl: './landing.component.css',
 })
 export class LandingComponent {
+  constructor(
+    private summary: SummaryService,
+    private auth: AuthService,
+  ) {}
+
   onSubmit() {
-    return 'uploading';
+    this.auth.checkAuth().subscribe();
   }
 
   openUploadSheet() {
