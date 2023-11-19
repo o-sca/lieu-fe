@@ -40,7 +40,7 @@ export class AuthService {
   signIn(username: string, password: string) {
     return this.http
       .post(
-        this._baseUrl + '/login',
+        this._baseUrl + '/auth/login',
         {
           username: username,
           password: password,
@@ -64,7 +64,7 @@ export class AuthService {
   signUp(email: string, password: string, username: string) {
     return this.http
       .post(
-        this._baseUrl + '/signup',
+        this._baseUrl + '/auth/signup',
         {
           email,
           password,
@@ -88,7 +88,7 @@ export class AuthService {
 
   signOut() {
     return this.http
-      .get(this._baseUrl + '/logout', { observe: 'response' })
+      .get(this._baseUrl + '/auth/logout', { observe: 'response' })
       .pipe(
         map((response) => {
           this._cookie.deleteAll();
