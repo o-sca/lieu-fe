@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -8,7 +8,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { SummaryService } from '../core/services/summary.service';
-import { AuthService } from '../core/services/auth.service';
 
 @Component({
   selector: 'app-landing',
@@ -30,13 +29,12 @@ import { AuthService } from '../core/services/auth.service';
   styleUrl: './landing.component.css',
 })
 export class LandingComponent {
-  constructor(
-    private summary: SummaryService,
-    private auth: AuthService,
-  ) {}
+  @ViewChild('pInput') pInput: ElementRef | undefined;
+
+  constructor(private summary: SummaryService) {}
 
   onSubmit() {
-    this.auth.checkAuth().subscribe();
+    this.summary.summarise(this.pInput?.nativeElement.value).subscribe();
   }
 
   openUploadSheet() {

@@ -13,7 +13,7 @@ export class SummaryService {
   summarise(text: string) {
     return this.http
       .post(
-        this.utility.getApiUrl() + '/summarise',
+        this.utility.getApiUrl() + '/ai/summarise',
         { text: text },
         {
           observe: 'response',
