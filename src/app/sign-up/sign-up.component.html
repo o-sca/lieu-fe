@@ -38,5 +38,6 @@
     {{ errorMessage }}
   </div>
 </div>
-<a routerLink="/signin">Already have an account? Sign in</a>
+<a class="router-link" routerLink="/signin">Already have an account? Sign in</a>
+<mat-spinner [diameter]="50" *ngIf="spinner.visibility"></mat-spinner>
 <router-outlet></router-outlet>

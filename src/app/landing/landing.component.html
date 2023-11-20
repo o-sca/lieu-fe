@@ -28,5 +28,7 @@
   <button mat-raised-button color="primary" (click)="onSubmit()">
     Send It
   </button>
+  <br />
+  <mat-spinner [diameter]="50" *ngIf="spinner.visibility"></mat-spinner>
 </div>
 <router-outlet></router-outlet>

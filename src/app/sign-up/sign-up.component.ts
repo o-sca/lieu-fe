@@ -9,6 +9,7 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import {
   Router,
   RouterLink,
@@ -16,6 +17,7 @@ import {
   RouterOutlet,
 } from '@angular/router';
 import { AuthService } from '../core/services/auth.service';
+import { SpinnerService } from '../core/services/spinner.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -26,6 +28,7 @@ import { AuthService } from '../core/services/auth.service';
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
+    MatProgressSpinnerModule,
     FormsModule,
     RouterOutlet,
     RouterLink,
@@ -45,6 +48,7 @@ export class SignUpComponent {
   constructor(
     private auth: AuthService,
     private router: Router,
+    public spinner: SpinnerService,
   ) {
     this.registrationError = false;
     this.errorMessage = '';

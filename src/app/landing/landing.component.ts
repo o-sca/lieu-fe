@@ -5,9 +5,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTabsModule } from '@angular/material/tabs';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { SummaryService } from '../core/services/summary.service';
+import { SpinnerService } from '../core/services/spinner.service';
 
 @Component({
   selector: 'app-landing',
@@ -19,6 +21,7 @@ import { SummaryService } from '../core/services/summary.service';
     MatBottomSheetModule,
     MatButtonModule,
     MatFormFieldModule,
+    MatProgressSpinnerModule,
     MatInputModule,
     RouterOutlet,
     RouterLink,
@@ -31,7 +34,10 @@ import { SummaryService } from '../core/services/summary.service';
 export class LandingComponent {
   @ViewChild('pInput') pInput: ElementRef | undefined;
 
-  constructor(private summary: SummaryService) {}
+  constructor(
+    private summary: SummaryService,
+    public spinner: SpinnerService,
+  ) {}
 
   onSubmit() {
     this.summary.summarise(this.pInput?.nativeElement.value).subscribe();

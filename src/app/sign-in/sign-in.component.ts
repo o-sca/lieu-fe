@@ -9,6 +9,7 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import {
   Router,
   RouterLink,
@@ -16,6 +17,7 @@ import {
   RouterOutlet,
 } from '@angular/router';
 import { AuthService } from '../core/services/auth.service';
+import { SpinnerService } from '../core/services/spinner.service';
 
 @Component({
   selector: 'app-auth',
@@ -26,6 +28,7 @@ import { AuthService } from '../core/services/auth.service';
     NgIf,
     MatFormFieldModule,
     MatButtonModule,
+    MatProgressSpinnerModule,
     MatInputModule,
     FormsModule,
     RouterOutlet,
@@ -44,6 +47,7 @@ export class SignInComponent {
   constructor(
     private auth: AuthService,
     private router: Router,
+    public spinner: SpinnerService,
   ) {
     this.authError = false;
     this.errorMessage = '';
