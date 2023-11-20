@@ -112,7 +112,6 @@ export class AuthService {
       })
       .pipe(
         map((response) => {
-          console.log(response);
           return response;
         }),
         catchError((err) => {
