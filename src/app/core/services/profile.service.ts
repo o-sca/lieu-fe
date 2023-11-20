@@ -22,7 +22,7 @@ export class ProfileService {
 
   getProfile() {
     return this.http
-      .get(this._baseUrl + '/me', { observe: 'body' as const })
+      .get(this._baseUrl + '/auth/me', { observe: 'body' as const })
       .pipe(
         map((response) => {
           return response as ProfileResponse;
