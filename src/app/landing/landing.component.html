@@ -30,5 +30,12 @@
   </button>
   <br />
   <mat-spinner [diameter]="50" *ngIf="spinner.visibility"></mat-spinner>
+  <mat-error>{{ errorMessage }}</mat-error>
+  <mat-card *ngIf="summaryText !== ''" class="summary-card">
+    <mat-card-title>Summary</mat-card-title>
+    <mat-card-content>
+      <p>{{ summaryText }}</p>
+    </mat-card-content>
+  </mat-card>
 </div>
 <router-outlet></router-outlet>

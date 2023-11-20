@@ -3,6 +3,10 @@ import { Injectable } from '@angular/core';
 import { UtilityService } from './utility.service';
 import { catchError, map, throwError } from 'rxjs';
 
+interface SummaryResponse {
+  summary_text: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class SummaryService {
   constructor(
@@ -21,7 +25,7 @@ export class SummaryService {
       )
       .pipe(
         map((response) => {
-          return response;
+          return response.body as SummaryResponse;
         }),
         catchError((err) => {
           return throwError(() => err);
