@@ -74,7 +74,7 @@ export class SignInComponent {
       },
       error: (err) => {
         this.authError = true;
-        this.errorMessage = err.message;
+        this.errorMessage = err.error.message;
       },
     });
   }
