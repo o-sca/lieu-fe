@@ -107,7 +107,7 @@ export class AuthService {
 
   checkAuth() {
     return this.http
-      .get(this._baseUrl + '/checklogin', {
+      .get(this._baseUrl + '/auth/checklogin', {
         observe: 'response',
       })
       .pipe(
