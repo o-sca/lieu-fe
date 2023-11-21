@@ -21,7 +21,7 @@ export class AuthService {
     this._cookie = inject(CookieService);
     this._baseUrl = this.utility.getApiUrl();
     this._redirectUrl = '';
-    this._authenticated = this._cookie.check('lieu.sid');
+    this._authenticated = false;
     this._role = this._cookie.get('role');
   }
 
@@ -112,6 +112,11 @@ export class AuthService {
       })
       .pipe(
         map((response) => {
+          if (!response.body) {
+            throw 'No response body';
+          }
+          const body = response.body as { authenticated: boolean };
+          this.setAuthChange(body.authenticated);
           return response;
         }),
         catchError((err) => {
