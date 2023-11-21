@@ -104,7 +104,7 @@ export class AuthService {
       .get(this._baseUrl + '/auth/logout', { observe: 'response' })
       .pipe(
         map((response) => {
-          this._cookie.deleteAll();
+          this._cookie.deleteAll('/');
           this._authenticated = false;
           this._role = '';
           this._redirectUrl = '/';
