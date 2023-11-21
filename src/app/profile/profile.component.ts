@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ProfileService } from '../core/services/profile.service';
 import { MatCardModule } from '@angular/material/card';
+import { AuthService } from '../core/services/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -15,14 +15,14 @@ export class ProfileComponent implements OnInit, OnDestroy {
   email: string;
   userType: string;
 
-  constructor(private profile: ProfileService) {
+  constructor(private auth: AuthService) {
     this.username = '';
     this.email = '';
     this.userType = '';
   }
 
   ngOnInit(): void {
-    this.profile.getProfile().subscribe({
+    this.auth.checkMe().subscribe({
       next: (response) => {
         this.username = response['username'];
         this.email = response['email'];

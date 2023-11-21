@@ -4,6 +4,12 @@ import { UtilityService } from './utility.service';
 import { catchError, map, throwError } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 
+interface ProfileResponse {
+  username: string;
+  email: string;
+  user_type: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private _authenticated: boolean;
@@ -21,7 +27,7 @@ export class AuthService {
     this._cookie = inject(CookieService);
     this._baseUrl = this.utility.getApiUrl();
     this._redirectUrl = '';
-    this._authenticated = false;
+    this._authenticated = this._cookie.get('authenticated') === 'true';
     this._role = this._cookie.get('role');
   }
 
@@ -49,10 +55,13 @@ export class AuthService {
       )
       .pipe(
         map((response) => {
+          const body = response.body as { user: { user_type: string } };
           this._authenticated = true;
           this._redirectUrl = '/profile';
-          this.setRoleChange(this._cookie.get('role'));
+          this.setRoleChange(body.user.user_type);
           this.setAuthChange(true);
+          this._cookie.set('role', body.user.user_type);
+          this._cookie.set('authenticated', 'true');
           return response;
         }),
         catchError((err) => {
@@ -68,16 +77,20 @@ export class AuthService {
         {
           email,
           password,
-          username: username,
+          username,
         },
         { observe: 'response' },
       )
       .pipe(
         map((response) => {
+          const body = response.body as { user: { user_type: string } };
+
           this._authenticated = true;
           this._redirectUrl = '/';
-          this.setRoleChange(this._cookie.get('role'));
+          this.setRoleChange(body.user.user_type);
           this.setAuthChange(true);
+          this._cookie.set('role', body.user.user_type);
+          this._cookie.set('authenticated', 'true');
           return response;
         }),
         catchError((err) => {
@@ -105,19 +118,19 @@ export class AuthService {
       );
   }
 
-  checkAuth() {
+  checkMe() {
     return this.http
-      .get(this._baseUrl + '/auth/checklogin', {
+      .get(this._baseUrl + '/auth/me', {
         observe: 'response',
       })
       .pipe(
         map((response) => {
-          if (!response.body) {
-            throw 'No response body';
-          }
-          const body = response.body as { authenticated: boolean };
-          this.setAuthChange(body.authenticated);
-          return response;
+          const body = response.body as ProfileResponse;
+          this.setAuthChange(true);
+          this.setRoleChange(body.user_type);
+          this._cookie.set('role', body.user_type);
+          this._cookie.set('authenticated', 'true');
+          return body;
         }),
         catchError((err) => {
           return throwError(() => err);
