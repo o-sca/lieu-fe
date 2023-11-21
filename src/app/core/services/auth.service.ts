@@ -21,7 +21,7 @@ export class AuthService {
     this._cookie = inject(CookieService);
     this._baseUrl = this.utility.getApiUrl();
     this._redirectUrl = '';
-    this._authenticated = this._cookie.check('connect.sid');
+    this._authenticated = this._cookie.check('lieu.sid');
     this._role = this._cookie.get('role');
   }
 
