@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable, Output, inject } from '@angular/core';
 import { UtilityService } from './utility.service';
-import { catchError, map, throwError } from 'rxjs';
+import { EMPTY, catchError, map, throwError } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 
 interface ProfileResponse {
@@ -76,8 +76,8 @@ export class AuthService {
         this._baseUrl + '/auth/signup',
         {
           email,
-          password,
           username,
+          password,
         },
         { observe: 'response' },
       )
@@ -132,8 +132,11 @@ export class AuthService {
           this._cookie.set('authenticated', 'true');
           return body;
         }),
-        catchError((err) => {
-          return throwError(() => err);
+        catchError(() => {
+          this.setAuthChange(false);
+          this.setRoleChange('');
+          this._cookie.deleteAll('/');
+          return EMPTY;
         }),
       );
   }
