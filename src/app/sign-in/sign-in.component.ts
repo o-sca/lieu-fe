@@ -70,7 +70,7 @@ export class SignInComponent {
   signIn() {
     this.auth.signIn(this.username.value!, this.password.value!).subscribe({
       next: () => {
-        this.router.navigate(['/']);
+        this.router.navigate(['/profile']);
       },
       error: (err) => {
         this.authError = true;
