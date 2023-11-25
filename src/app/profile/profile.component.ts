@@ -1,35 +1,60 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
-import { MatTableModule } from '@angular/material/table';
+import {
+  MatPaginator,
+  MatPaginatorIntl,
+  MatPaginatorModule,
+} from '@angular/material/paginator';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { AuthService } from '../core/services/auth.service';
 import { ProfileService } from '../core/services/profile.service';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatTableModule],
+  imports: [CommonModule, MatCardModule, MatPaginatorModule, MatTableModule],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css',
 })
-export class ProfileComponent implements OnInit, OnDestroy {
+export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
   username: string;
   email: string;
   userType: string;
 
-  dataSource: { createdAt: string; input: string; output: string }[];
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  dataSource: MatTableDataSource<TrackedRequest>;
   displayedColumns: string[];
+
+  requestsMade: number;
 
   constructor(
     private auth: AuthService,
     private profile: ProfileService,
+    private changeDetector: ChangeDetectorRef,
   ) {
     this.username = '';
     this.email = '';
     this.userType = '';
+    this.requestsMade = 0;
 
-    this.dataSource = [];
+    this.dataSource = new MatTableDataSource<TrackedRequest>();
     this.displayedColumns = ['createdAt', 'input', 'output'];
+    this.paginator = new MatPaginator(
+      new MatPaginatorIntl(),
+      this.changeDetector,
+    );
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
   }
 
   ngOnInit(): void {
@@ -39,17 +64,18 @@ export class ProfileComponent implements OnInit, OnDestroy {
         this.email = response['email'];
         this.userType = response['user_type'];
       },
-      error(err) {
-        console.error(err);
+      error() {
+        return;
       },
     });
 
     this.profile.getProfile().subscribe({
       next: (response) => {
-        this.dataSource = response['requests'];
+        this.dataSource.data = response['requests'];
+        this.requestsMade = response['requests'].length;
       },
-      error: (err) => {
-        console.error(err);
+      error: () => {
+        return;
       },
     });
   }
@@ -57,4 +83,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     return;
   }
+}
+
+interface TrackedRequest {
+  createdAt: string;
+  input: string;
+  output: string;
 }
