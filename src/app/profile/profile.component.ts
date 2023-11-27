@@ -17,11 +17,19 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { TrackedRequest } from '../core/schemas/requests.schema';
 import { AuthService } from '../core/services/auth.service';
 import { ProfileService } from '../core/services/profile.service';
+import { SpinnerService } from '../core/services/spinner.service';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatPaginatorModule, MatTableModule],
+  imports: [
+    CommonModule,
+    MatCardModule,
+    MatPaginatorModule,
+    MatProgressSpinnerModule,
+    MatTableModule,
+  ],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css',
 })
@@ -39,6 +47,7 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     private auth: AuthService,
     private profile: ProfileService,
+    public spinner: SpinnerService,
     private changeDetector: ChangeDetectorRef,
   ) {
     this.username = '';

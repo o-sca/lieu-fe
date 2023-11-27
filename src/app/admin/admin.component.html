@@ -1,1 +1,79 @@
-<p>admin works!</p>
+<div class="mat-elevation-z8">
+  <h4>Endpoints</h4>
+  <mat-table [dataSource]="endpointDataSource" class="endpoint-table">
+    @for (column of endpointDisplayedColumns; track column) {
+    <ng-container matColumnDef="{{ column }}">
+      <th mat-header-cell *matHeaderCellDef>{{ column }}</th>
+      <td mat-cell *matCellDef="let endpoint">{{ endpoint[column] }}</td>
+    </ng-container>
+    }
+    <tr
+      mat-header-row
+      *matHeaderRowDef="endpointDisplayedColumns; sticky: true"
+    ></tr>
+    <tr mat-row *matRowDef="let row; columns: endpointDisplayedColumns"></tr>
+  </mat-table>
+
+  <h4>Requests</h4>
+  <table mat-table [dataSource]="requestDataSource" multiTemplateDataRows>
+    @for (column of displayedColumns; track column) {
+    <ng-container matColumnDef="{{ column }}">
+      <th mat-header-cell *matHeaderCellDef>{{ column }}</th>
+      <td mat-cell *matCellDef="let request">{{ request[column] }}</td>
+    </ng-container>
+    }
+    <ng-container matColumnDef="expand">
+      <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
+      <td mat-cell *matCellDef="let request">
+        <button
+          mat-icon-button
+          aria-label="expand row"
+          (click)="
+            expandedRequest = expandedRequest === request ? null : request;
+            $event.stopPropagation()
+          "
+        >
+          @if (expandedRequest === request) {
+          <mat-icon>keyboard_arrow_up</mat-icon>
+          } @else {
+          <mat-icon>keyboard_arrow_down</mat-icon>
+          }
+        </button>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="expandedDetail">
+      <td
+        mat-cell
+        *matCellDef="let request"
+        [attr.colspan]="displayedColumnsWithExpand.length"
+      >
+        <div
+          class="request-detail"
+          [@detailExpand]="
+            request == expandedRequest ? 'expanded' : 'collapsed'
+          "
+        >
+          <div class="request-diagram">hi</div>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumnsWithExpand"></tr>
+    <tr
+      mat-row
+      *matRowDef="let request; columns: displayedColumnsWithExpand"
+      class="request-row"
+      [class.expanded-row]="expandedRequest === request"
+      (click)="expandedRequest = expandedRequest === request ? null : request"
+    ></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: ['expandedDetail']"
+      class="detail-row"
+    ></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5]" showFirstLastButtons></mat-paginator>
+</div>
+<mat-spinner [diameter]="50" *ngIf="spinner.visibility"></mat-spinner>
