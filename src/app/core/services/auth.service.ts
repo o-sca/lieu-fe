@@ -3,12 +3,7 @@ import { EventEmitter, Injectable, Output, inject } from '@angular/core';
 import { UtilityService } from './utility.service';
 import { EMPTY, catchError, map, throwError } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
-
-interface ProfileResponse {
-  username: string;
-  email: string;
-  user_type: string;
-}
+import { ProfileResponse } from '../schemas/profile.schema';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {

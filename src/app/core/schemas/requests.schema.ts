@@ -5,3 +5,8 @@ export interface TrackedRequest {
   input: string;
   output: string;
 }
+
+export interface TrackedRequestAdmin extends TrackedRequest {
+  username: string;
+  user_type: string;
+}
