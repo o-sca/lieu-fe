@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   ChangeDetectorRef,
@@ -6,7 +7,6 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import {
   MatPaginator,
@@ -14,6 +14,7 @@ import {
   MatPaginatorModule,
 } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { TrackedRequest } from '../core/schemas/requests.schema';
 import { AuthService } from '../core/services/auth.service';
 import { ProfileService } from '../core/services/profile.service';
 
@@ -71,8 +72,8 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.profile.getProfile().subscribe({
       next: (response) => {
-        this.dataSource.data = response['requests'];
-        this.requestsMade = response['requests'].length;
+        this.dataSource.data = response;
+        this.requestsMade = response.length;
       },
       error: () => {
         return;
@@ -83,10 +84,4 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnDestroy(): void {
     return;
   }
-}
-
-interface TrackedRequest {
-  createdAt: string;
-  input: string;
-  output: string;
 }

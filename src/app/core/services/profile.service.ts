@@ -1,16 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { UtilityService } from './utility.service';
 import { EMPTY, catchError, map } from 'rxjs';
-
-interface RequestTrackResponse {
-  userId: number;
-  requests: {
-    createdAt: string;
-    input: string;
-    output: string;
-  }[];
-}
+import { TrackedRequest } from '../schemas/requests.schema';
+import { UtilityService } from './utility.service';
 
 @Injectable({ providedIn: 'root' })
 export class ProfileService {
@@ -24,14 +16,16 @@ export class ProfileService {
   }
 
   getProfile() {
-    return this.http.get(this.baseUrl + '/req', { observe: 'response' }).pipe(
-      map((response) => {
-        const body = response.body as RequestTrackResponse;
-        return body;
-      }),
-      catchError(() => {
-        return EMPTY;
-      }),
-    );
+    return this.http
+      .get(this.baseUrl + '/requests', { observe: 'response' })
+      .pipe(
+        map((response) => {
+          const body = response.body as TrackedRequest[];
+          return body;
+        }),
+        catchError(() => {
+          return EMPTY;
+        }),
+      );
   }
 }
