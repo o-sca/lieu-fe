@@ -32,4 +32,23 @@ export class SummaryService {
         }),
       );
   }
+
+  generate(text: string) {
+    return this.http
+      .post(
+        this.utility.getApiUrl() + '/ai/gen/generate',
+        { text: text },
+        {
+          observe: 'response',
+        },
+      )
+      .pipe(
+        map((response) => {
+          return response.body;
+        }),
+        catchError((err) => {
+          return throwError(() => err);
+        }),
+      );
+  }
 }

@@ -10,6 +10,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { SummaryService } from '../core/services/summary.service';
 import { SpinnerService } from '../core/services/spinner.service';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-landing',
@@ -23,6 +24,8 @@ import { SpinnerService } from '../core/services/spinner.service';
     MatFormFieldModule,
     MatProgressSpinnerModule,
     MatInputModule,
+    FormsModule,
+    ReactiveFormsModule,
     RouterOutlet,
     RouterLink,
     RouterLinkActive,
@@ -33,8 +36,10 @@ import { SpinnerService } from '../core/services/spinner.service';
 })
 export class LandingComponent {
   @ViewChild('pInput') pInput: ElementRef | undefined;
+  @ViewChild('gInput') gInput: ElementRef | undefined;
   resultText: string;
   errorMessage: string;
+  selected: FormControl;
 
   constructor(
     private summary: SummaryService,
@@ -42,9 +47,10 @@ export class LandingComponent {
   ) {
     this.resultText = '';
     this.errorMessage = '';
+    this.selected = new FormControl(0);
   }
 
-  onSubmit() {
+  summarise() {
     this.summary.summarise(this.pInput?.nativeElement.value).subscribe({
       next: (response) => {
         this.resultText = response.summary_text;
@@ -55,7 +61,14 @@ export class LandingComponent {
     });
   }
 
-  openUploadSheet() {
-    return;
+  generate() {
+    this.summary.generate(this.gInput?.nativeElement.value).subscribe({
+      next: (response) => {
+        this.resultText = response as string;
+      },
+      error: (err) => {
+        this.errorMessage = err.error.error;
+      },
+    });
   }
 }
