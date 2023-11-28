@@ -3,10 +3,6 @@ import { Injectable } from '@angular/core';
 import { UtilityService } from './utility.service';
 import { catchError, map, throwError } from 'rxjs';
 
-interface SummaryResponse {
-  summary_text: string;
-}
-
 @Injectable({ providedIn: 'root' })
 export class SummaryService {
   constructor(
@@ -25,7 +21,7 @@ export class SummaryService {
       )
       .pipe(
         map((response) => {
-          return response.body as SummaryResponse;
+          return response.body as { result_text: string };
         }),
         catchError((err) => {
           return throwError(() => err);
@@ -44,7 +40,7 @@ export class SummaryService {
       )
       .pipe(
         map((response) => {
-          return response.body as { generated_text: string };
+          return response.body as { result_text: string };
         }),
         catchError((err) => {
           return throwError(() => err);

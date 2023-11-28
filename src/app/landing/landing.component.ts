@@ -53,7 +53,7 @@ export class LandingComponent {
   summarise() {
     this.summary.summarise(this.pInput?.nativeElement.value).subscribe({
       next: (response) => {
-        this.resultText = response.summary_text;
+        this.resultText = response.result_text;
       },
       error: (err) => {
         this.errorMessage = err.error.error;
@@ -64,7 +64,7 @@ export class LandingComponent {
   generate() {
     this.summary.generate(this.gInput?.nativeElement.value).subscribe({
       next: (response) => {
-        this.resultText = response.generated_text;
+        this.resultText = response.result_text;
       },
       error: (err) => {
         this.errorMessage = err.error.error;
