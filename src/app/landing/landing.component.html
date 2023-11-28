@@ -20,7 +20,6 @@
             class="generate-input"
             matInput
             placeholder="What do you need generated?"
-            disabled
           ></textarea>
         </mat-form-field>
       </div>
@@ -32,10 +31,10 @@
   <br />
   <mat-spinner [diameter]="50" *ngIf="spinner.visibility"></mat-spinner>
   <mat-error>{{ errorMessage }}</mat-error>
-  <mat-card *ngIf="summaryText !== ''" class="summary-card">
-    <mat-card-title>Summary</mat-card-title>
+  <mat-card *ngIf="resultText !== ''" class="summary-card">
+    <mat-card-title>Result</mat-card-title>
     <mat-card-content>
-      <p>{{ summaryText }}</p>
+      <p>{{ resultText }}</p>
     </mat-card-content>
   </mat-card>
 </div>

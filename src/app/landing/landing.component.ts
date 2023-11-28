@@ -33,21 +33,21 @@ import { SpinnerService } from '../core/services/spinner.service';
 })
 export class LandingComponent {
   @ViewChild('pInput') pInput: ElementRef | undefined;
-  summaryText: string;
+  resultText: string;
   errorMessage: string;
 
   constructor(
     private summary: SummaryService,
     public spinner: SpinnerService,
   ) {
-    this.summaryText = '';
+    this.resultText = '';
     this.errorMessage = '';
   }
 
   onSubmit() {
     this.summary.summarise(this.pInput?.nativeElement.value).subscribe({
       next: (response) => {
-        this.summaryText = response.summary_text;
+        this.resultText = response.summary_text;
       },
       error: (err) => {
         this.errorMessage = err.error.error;
