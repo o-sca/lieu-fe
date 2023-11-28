@@ -16,7 +16,11 @@ import {
 } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { TrackedRequest } from '../core/schemas/requests.schema';
+import {
+  Endpoint,
+  RequestUser,
+  TrackedRequest,
+} from '../core/schemas/requests.schema';
 import { AdminService } from '../core/services/admin.service';
 import { SpinnerService } from '../core/services/spinner.service';
 import {
@@ -54,18 +58,24 @@ import {
 })
 export class AdminComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  dataSource: MatTableDataSource<TrackedRequest>;
+  requestDataSource: MatTableDataSource<TrackedRequest>;
   displayedColumns: string[];
   displayedColumnsWithExpand: string[];
 
   expandedRequest?: TrackedRequest | null;
+
+  endpointDataSource: MatTableDataSource<Endpoint>;
+  endpointDisplayedColumns: string[];
+
+  userDataSource: MatTableDataSource<RequestUser>;
+  userDisplayedColumns: string[];
 
   constructor(
     public spinner: SpinnerService,
     public changeDetector: ChangeDetectorRef,
     private admin: AdminService,
   ) {
-    this.dataSource = new MatTableDataSource<TrackedRequest>();
+    this.requestDataSource = new MatTableDataSource<TrackedRequest>();
     this.displayedColumns = [
       'username',
       'user_type',
@@ -78,16 +88,46 @@ export class AdminComponent implements OnInit, AfterViewInit {
       new MatPaginatorIntl(),
       this.changeDetector,
     );
+
+    this.endpointDataSource = new MatTableDataSource<Endpoint>();
+    this.endpointDisplayedColumns = ['path', 'method', 'count'];
+
+    this.userDataSource = new MatTableDataSource<RequestUser>();
+    this.userDisplayedColumns = ['username', 'user_type', 'request_count'];
   }
 
   ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
+    this.requestDataSource.paginator = this.paginator;
   }
 
   ngOnInit(): void {
     this.admin.getAll().subscribe((requests) => {
-      this.dataSource.data = requests;
+      this.requestDataSource.data = requests;
+    });
+
+    this.admin.getEndpointCount().subscribe((endpoints) => {
+      this.endpointDataSource.data = endpoints;
+    });
+
+    this.admin.getAllUsers().subscribe((users) => {
+      this.userDataSource.data = users;
     });
     return;
+  }
+
+  upgradeToAdmin(userId: number) {
+    return this.admin.upgradeToAdmin(userId).subscribe({
+      next: () => {
+        window.location.reload();
+      },
+    });
+  }
+
+  downgradeToUser(userId: number) {
+    return this.admin.downgradeToUser(userId).subscribe({
+      next: () => {
+        window.location.reload();
+      },
+    });
   }
 }

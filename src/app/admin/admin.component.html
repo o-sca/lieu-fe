@@ -1,5 +1,74 @@
 <div class="mat-elevation-z8">
-  <table mat-table [dataSource]="dataSource" multiTemplateDataRows>
+  <h4>Endpoints</h4>
+  <section tabindex="0">
+    <table mat-table [dataSource]="endpointDataSource" class="endpoint-table">
+      @for (column of endpointDisplayedColumns; track column) {
+      <ng-container matColumnDef="{{ column }}">
+        <th mat-header-cell *matHeaderCellDef>{{ column }}</th>
+        <td mat-cell *matCellDef="let endpoint">{{ endpoint[column] }}</td>
+      </ng-container>
+      }
+
+      <tr
+        mat-header-row
+        *matHeaderRowDef="endpointDisplayedColumns; sticky: true"
+      ></tr>
+      <tr mat-row *matRowDef="let row; columns: endpointDisplayedColumns"></tr>
+    </table>
+  </section>
+
+  <h4>Users</h4>
+  <section tabindex="0">
+    <table mat-table [dataSource]="userDataSource">
+      @for (column of userDisplayedColumns; track column) {
+      <ng-container matColumnDef="{{ column }}">
+        <th mat-header-cell *matHeaderCellDef>{{ column }}</th>
+        <td mat-cell *matCellDef="let user">{{ user[column] }}</td>
+      </ng-container>
+      }
+
+      <ng-container matColumnDef="user_action">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let user">
+          <button
+            *ngIf="user.user_type === 'USER'; else downgrade"
+            mat-raised-button
+            color="accent"
+            (click)="upgradeToAdmin(user.user_id)"
+          >
+            Upgrade to Admin
+          </button>
+          <ng-template #downgrade>
+            <button
+              mat-raised-button
+              color="warn"
+              (click)="downgradeToUser(user.user_id)"
+            >
+              Downgrade to User
+            </button>
+          </ng-template>
+        </td>
+      </ng-container>
+
+      <tr
+        mat-header-row
+        *matHeaderRowDef="
+          userDisplayedColumns.concat('user_action');
+          sticky: true
+        "
+      ></tr>
+      <tr
+        mat-row
+        *matRowDef="
+          let row;
+          columns: userDisplayedColumns.concat('user_action')
+        "
+      ></tr>
+    </table>
+  </section>
+
+  <h4>Requests</h4>
+  <table mat-table [dataSource]="requestDataSource" multiTemplateDataRows>
     @for (column of displayedColumns; track column) {
     <ng-container matColumnDef="{{ column }}">
       <th mat-header-cell *matHeaderCellDef>{{ column }}</th>
