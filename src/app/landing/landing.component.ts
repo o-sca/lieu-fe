@@ -64,7 +64,7 @@ export class LandingComponent {
   generate() {
     this.summary.generate(this.gInput?.nativeElement.value).subscribe({
       next: (response) => {
-        this.resultText = response as string;
+        this.resultText = response.generated_text;
       },
       error: (err) => {
         this.errorMessage = err.error.error;

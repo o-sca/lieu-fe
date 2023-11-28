@@ -44,7 +44,7 @@ export class SummaryService {
       )
       .pipe(
         map((response) => {
-          return response.body;
+          return response.body as { generated_text: string };
         }),
         catchError((err) => {
           return throwError(() => err);
