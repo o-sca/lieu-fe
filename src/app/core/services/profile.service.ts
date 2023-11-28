@@ -28,4 +28,20 @@ export class ProfileService {
         }),
       );
   }
+
+  deleteRequest(id: number) {
+    return this.http
+      .delete(this.baseUrl + '/requests?id=' + id, { observe: 'response' })
+      .pipe(
+        map((response) => {
+          if (response.status === 204) {
+            return true;
+          }
+          return false;
+        }),
+        catchError(() => {
+          return EMPTY;
+        }),
+      );
+  }
 }

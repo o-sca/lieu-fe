@@ -8,26 +8,30 @@ import {
   ViewChild,
 } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 import {
   MatPaginator,
   MatPaginatorIntl,
   MatPaginatorModule,
 } from '@angular/material/paginator';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { TrackedRequest } from '../core/schemas/requests.schema';
 import { AuthService } from '../core/services/auth.service';
 import { ProfileService } from '../core/services/profile.service';
 import { SpinnerService } from '../core/services/spinner.service';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
   imports: [
     CommonModule,
+    MatButtonModule,
     MatCardModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,
+    MatIconModule,
     MatTableModule,
   ],
   templateUrl: './profile.component.html',
@@ -56,7 +60,7 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
     this.requestsMade = 0;
 
     this.dataSource = new MatTableDataSource<TrackedRequest>();
-    this.displayedColumns = ['createdAt', 'input', 'output'];
+    this.displayedColumns = ['createdAt', 'input', 'output', 'action'];
     this.paginator = new MatPaginator(
       new MatPaginatorIntl(),
       this.changeDetector,
@@ -92,5 +96,20 @@ export class ProfileComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnDestroy(): void {
     return;
+  }
+
+  delete(requestId: number) {
+    this.profile.deleteRequest(requestId).subscribe({
+      next: (success) => {
+        if (success) {
+          this.dataSource.data = this.dataSource.data.filter((request) => {
+            return request.request_id !== requestId;
+          });
+        }
+      },
+      error: () => {
+        return;
+      },
+    });
   }
 }
