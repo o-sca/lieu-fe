@@ -78,13 +78,13 @@ export class AuthService {
       )
       .pipe(
         map((response) => {
-          const body = response.body as { user: { user_type: string } };
+          const body = response.body as { user_type: string };
 
           this._authenticated = true;
           this._redirectUrl = '/';
-          this.setRoleChange(body.user.user_type);
+          this.setRoleChange(body.user_type);
           this.setAuthChange(true);
-          this._cookie.set('role', body.user.user_type);
+          this._cookie.set('role', body.user_type);
           this._cookie.set('authenticated', 'true');
           return response;
         }),

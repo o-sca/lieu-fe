@@ -16,7 +16,11 @@ import {
 } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { Endpoint, TrackedRequest } from '../core/schemas/requests.schema';
+import {
+  Endpoint,
+  RequestUser,
+  TrackedRequest,
+} from '../core/schemas/requests.schema';
 import { AdminService } from '../core/services/admin.service';
 import { SpinnerService } from '../core/services/spinner.service';
 import {
@@ -63,6 +67,9 @@ export class AdminComponent implements OnInit, AfterViewInit {
   endpointDataSource: MatTableDataSource<Endpoint>;
   endpointDisplayedColumns: string[];
 
+  userDataSource: MatTableDataSource<RequestUser>;
+  userDisplayedColumns: string[];
+
   constructor(
     public spinner: SpinnerService,
     public changeDetector: ChangeDetectorRef,
@@ -83,7 +90,10 @@ export class AdminComponent implements OnInit, AfterViewInit {
     );
 
     this.endpointDataSource = new MatTableDataSource<Endpoint>();
-    this.endpointDisplayedColumns = ['path', 'count'];
+    this.endpointDisplayedColumns = ['path', 'method', 'count'];
+
+    this.userDataSource = new MatTableDataSource<RequestUser>();
+    this.userDisplayedColumns = ['username', 'user_type', 'request_count'];
   }
 
   ngAfterViewInit(): void {
@@ -98,6 +108,26 @@ export class AdminComponent implements OnInit, AfterViewInit {
     this.admin.getEndpointCount().subscribe((endpoints) => {
       this.endpointDataSource.data = endpoints;
     });
+
+    this.admin.getAllUsers().subscribe((users) => {
+      this.userDataSource.data = users;
+    });
     return;
+  }
+
+  upgradeToAdmin(userId: number) {
+    return this.admin.upgradeToAdmin(userId).subscribe({
+      next: () => {
+        window.location.reload();
+      },
+    });
+  }
+
+  downgradeToUser(userId: number) {
+    return this.admin.downgradeToUser(userId).subscribe({
+      next: () => {
+        window.location.reload();
+      },
+    });
   }
 }

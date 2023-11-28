@@ -24,7 +24,7 @@ request-detail {
   display: flex;
 }
 
-.mat-mdc-table {
+section {
   width: 100%;
   max-height: 200px;
   overflow: auto;
